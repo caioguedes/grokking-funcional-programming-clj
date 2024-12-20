@@ -20,6 +20,12 @@
       (str/index-of word \c) (+ base 5)
       :else base)))
 
+(defn score-bonus-penalty [word]
+  (let [base (score-bonus word)]
+    (cond
+      (str/index-of word \s) (- base 7)
+      :else base)))
+
 (defn ranked-words [compare-fn words]
   (sort #(> (compare-fn %1) (compare-fn %2)) words))
 
@@ -29,3 +35,5 @@
 (is (= ["scala" "haskell" "rust" "java" "ada"]
        (ranked-words score-bonus words)))
 
+(is (= ["java" "ada" "scala" "haskell" "rust" ]
+       (ranked-words score-bonus-penalty words)))
